@@ -67,7 +67,7 @@ Add a custom lisp directory to the load-path.
 
 Load remaining configuration.
 #+begin_src emacs-lisp :tangle emacs/init.el :results none
-  (load "~/.config/dotfiles")
+  (load "~/.config/README")
 #+end_src
 
 * ui
@@ -725,27 +725,6 @@ Preview file under cursor in dired. Ignore directories.
     (advice-add 'dired-preview--file-ignored-p
   	      :before-until (lambda (file)
   			      (file-directory-p file))))
-#+end_src
-
-Quick chmod, rename-file and copy-file which act on current buffer.
-#+begin_src emacs-lisp :tangle yes :results none
-  (defun quick-chmod (file mode)
-    (interactive (list buffer-file-name (read-file-modes (format "File modes (%s): "
-  							       (concat (file-name-base buffer-file-name) "."
-  								       (file-name-extension buffer-file-name)))
-  						       buffer-file-name)))
-    (chmod file mode))
-
-  (defun quick-rename-file (arg file newname)
-    (interactive (list current-prefix-arg buffer-file-name
-  		     (read-file-name (format "%s (%s) to: "
-  					     (if current-prefix-arg "Copy" "Rename")
-  					     (concat (file-name-base buffer-file-name) "."
-  						     (file-name-extension buffer-file-name))))))
-    (funcall (if arg #'copy-file #'rename-file) file newname))
-
-  (global-set-key (kbd "C-x M") #'quick-chmod)
-  (global-set-key (kbd "C-x R") #'quick-rename-file)
 #+end_src
 
 ** launcher
